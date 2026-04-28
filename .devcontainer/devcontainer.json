@@ -19,6 +19,9 @@
     }
   },
   "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "containerEnv": {
+    "UV_LINK_MODE": "copy"
+  },
   "forwardPorts": [7860, 8888],
   "portsAttributes": {
     "7860": { "label": "Gradio App", "onAutoForward": "openBrowser" },

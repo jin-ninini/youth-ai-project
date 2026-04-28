@@ -8,6 +8,9 @@ echo "📦 uv 설치 중..."
 curl -LsSf https://astral.sh/uv/install.sh | sh
 export PATH="$HOME/.local/bin:$PATH"
 
+# 캐시/.venv가 서로 다른 파일시스템에 있을 때 하드링크 경고 방지
+export UV_LINK_MODE=copy
+
 # 2) uv sync (의존성 설치 + .venv 생성)
 echo "📦 패키지 설치 중..."
 uv sync
