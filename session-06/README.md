@@ -18,7 +18,8 @@
 
 ## 🛠️ 실습 파일
 
-- `practice.ipynb` — 도구 정의, 에이전트 루프 구현, 수학 에이전트, 웹 검색 에이전트
+- `maf_sample_scenarios.ipynb` — MAF를 이용한 AI 에이전트 구현
+- `01_function_calling_agent.ipynb` — 도구 정의, 에이전트 루프 구현, 수학 에이전트, 웹 검색 에이전트
 
 ## 📚 참고 레포
 
