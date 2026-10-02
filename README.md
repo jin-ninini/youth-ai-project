@@ -1,4 +1,4 @@
-# 🌲 Youth AI Project 2026 — P.I.N.E. 2nd Cohort
+# 🔆 Youth AI Project 2026 — P.I.N.E. 2nd Cohort
 
 > A hands-on AI course where high school students go from their first `print` to multi-agent RAG services.
 
