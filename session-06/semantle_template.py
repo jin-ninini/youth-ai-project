@@ -38,7 +38,8 @@ def get_embedding(text):
 def calculate_score(word, target):
     a, b = np.array(get_embedding(word)), np.array(get_embedding(target))
     sim = float(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b)))
-    return round(max(0, min((sim - 0.5) * 200, 100)), 2)
+    # text-embedding-3-small의 단어 유사도는 대략 0.15(관계없음)~0.6(아주 비슷) → 0~100점으로 늘려줌
+    return round(max(0, min((sim - 0.15) / 0.45 * 100, 100)), 2)
 
 def color_emoji(score):
     if score >= 80: return "🟢"

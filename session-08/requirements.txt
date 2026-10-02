@@ -1,0 +1,22 @@
+# Hackathon workbook + Chainlit chatbot
+openai>=1.30.0
+python-dotenv
+chainlit
+requests  # chainlit 2.x imports it at startup but does not install it
+# Data and visualization notebooks
+pandas
+matplotlib
+ipywidgets
+# Local LLM (Qwen) and image classifier notebooks
+torch
+torchvision
+tqdm
+transformers
+accelerate
+optimum-quanto
+wordcloud
+ipykernel
+# Security minimums carried over from the original repo
+pillow>=12.1.1
+fonttools>=4.60.0
+filelock>=3.20.3

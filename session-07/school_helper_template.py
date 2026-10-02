@@ -23,7 +23,7 @@ from dotenv import load_dotenv, find_dotenv
 
 # MAF (6회차에서 쓴 것과 동일) — APIM Foundry Proxy로 연결
 from agent_framework import Agent, tool
-from agent_framework.openai import OpenAIChatClient, OpenAIEmbeddingClient
+from agent_framework.openai import OpenAIChatCompletionClient, OpenAIEmbeddingClient
 
 load_dotenv(find_dotenv(usecwd=True), override=True)
 
@@ -31,31 +31,23 @@ if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 
 # ── 환경 설정 (APIM Foundry Proxy) ──────────────────────────
-# .env 파일에 아래 값을 채우세요.
-#   APIM_ENDPOINT=https://apim-foundryproxy-dev.azure-api.net/foundry/gpt-5.4/
+# 프로젝트 루트 .env에 아래 값을 채우세요. (.env.example 참고)
+#   APIM_BASE_URL=https://apim-foundryproxy-dev.azure-api.net/foundry
 #   APIM_KEY=<키>
+#   CHAT_MODEL=gpt-5.4
 #   EMBEDDING_MODEL=text-embedding-3-small
 #
-# APIM_ENDPOINT는 채팅 모델 엔드포인트입니다.
-# 임베딩 엔드포인트는 기본적으로 같은 /foundry/ 아래의 EMBEDDING_MODEL로 자동 구성합니다.
-def with_trailing_slash(url: str) -> str:
-    return url.rstrip("/") + "/"
-
-
-APIM_CHAT_ENDPOINT = with_trailing_slash(os.environ["APIM_ENDPOINT"])
+# 모델마다 엔드포인트가 {APIM_BASE_URL}/{모델명}/ 으로 나뉩니다.
+APIM_BASE_URL = os.environ["APIM_BASE_URL"].rstrip("/")
 APIM_KEY = os.environ["APIM_KEY"]
-CHAT_MODEL = os.getenv("CHAT_MODEL") or APIM_CHAT_ENDPOINT.rstrip("/").split("/")[-1]
+CHAT_MODEL = os.getenv("CHAT_MODEL", "gpt-5.4")
 EMBED_MODEL = os.getenv("EMBEDDING_MODEL", "text-embedding-3-small")
 
-DEFAULT_EMBED_ENDPOINT = APIM_CHAT_ENDPOINT.rstrip("/").rsplit("/", 1)[0] + f"/{EMBED_MODEL}/"
-APIM_EMBEDDING_ENDPOINT = with_trailing_slash(
-    os.getenv("APIM_EMBEDDING_ENDPOINT", DEFAULT_EMBED_ENDPOINT)
-)
-
 # 대화용 클라이언트 (MAF) — APIM은 api-key 헤더로 인증
-chat_client = OpenAIChatClient(
+# Chat Completions 방식은 매 요청에 대화 전체를 보내서, 도구 호출이 APIM 프록시에서도 안정적으로 동작합니다.
+chat_client = OpenAIChatCompletionClient(
     model=CHAT_MODEL,
-    base_url=APIM_CHAT_ENDPOINT,
+    base_url=f"{APIM_BASE_URL}/{CHAT_MODEL}/",
     api_key="placeholder",
     default_headers={"api-key": APIM_KEY},
 )
@@ -63,7 +55,7 @@ chat_client = OpenAIChatClient(
 # 임베딩용 클라이언트 (MAF) — 같은 APIM 프록시의 임베딩 모델 엔드포인트 사용
 embed_client = OpenAIEmbeddingClient(
     model=EMBED_MODEL,
-    base_url=APIM_EMBEDDING_ENDPOINT,
+    base_url=f"{APIM_BASE_URL}/{EMBED_MODEL}/",
     api_key="placeholder",
     default_headers={"api-key": APIM_KEY},
 )

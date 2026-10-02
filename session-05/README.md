@@ -1,58 +1,80 @@
-# 5회차 — AI 프로그래밍 실습 (5/30 토, 10:00~13:00)
+# 🤖 Session 05 — AI Programming with the OpenAI SDK
 
-## 🎯 학습 목표
+> First API calls, text generation, image analysis, tool calling, and embeddings through the course APIM proxy.
 
-1. Azure OpenAI Python SDK 설치 및 설정
-2. API 키/엔드포인트 설정 후 첫 Completion 실행
-3. 프롬프트로 텍스트 생성, 이미지 분석, Q&A 봇 만들기
+<br>
 
-## 📊 강의 흐름
+## Overview
 
-| 섹션 | 내용 | 시간 |
-|------|------|------|
-| 환경 세팅 | Codespace 접속, SDK 설치, `.env` 설정 | 20분 |
-| 첫 API 호출 | `chat.completions.create()`, 파라미터 실험 | 30분 |
-| 코드 예시 실습 | 텍스트 생성, 이미지 분석, Q&A 봇 | 40분 |
-| 나만의 봇 만들기 | 시스템 프롬프트 커스터마이징 + Gradio UI | 30분 |
+Students move from using ChatGPT to calling a model from Python (Sat 5/30, 10:00–13:00). They set up `.env`, make a first chat completion, and build small apps: a study plan generator, an image analyzer, and an FAQ bot. Homework turns this into a persona chatbot with a Gradio web UI.
 
-## 🛠️ 실습 파일
+<br>
 
-- `practice.ipynb` — 첫 API 호출, temperature 실험, 공부 플랜 생성기, 대화형 챗봇, Gradio UI
+## Approach
 
-## 🔑 핵심 코드 패턴
+- **Concepts**: `chat.completions.create()`, system/user roles, temperature, vision input, tool (function) calling, embeddings, cosine similarity
+- **Hands-on**: `notebooks/openai_workshop.ipynb` covers setup, five practice parts, and two mini assignments
+- **Model**: `CHAT_MODEL`, `VISION_MODEL`, and `EMBEDDING_MODEL` from `.env`, served at `{APIM_BASE_URL}/{model}/`
+- **Homework**: Build your own AI chatbot from `chatbot_template.py`
+  - A system prompt that defines a persona and behavior rules
+  - Conversation history so the bot remembers earlier turns
+  - A Gradio web UI; submit code, a README, and two or three screenshots on GitHub
 
-```python
-# 기본 패턴
-response = client.chat.completions.create(
-    model="gpt-4o",
-    messages=[
-        {"role": "system", "content": "역할 설정"},
-        {"role": "user", "content": "사용자 질문"}
-    ]
-)
-answer = response.choices[0].message.content
+<br>
+
+## Results
+
+| Practice | Check | Result |
+|---|---|---|
+| `notebooks/openai_workshop.ipynb` | All 35 cells execute with `.env` | Pass |
+| `chatbot_template.py` | Replies and remembers earlier turns | Pass |
+
+- The template answers "방금 내가 뭐라고 했지?" correctly when history is passed in
+- Typing `/reset` in the chat clears the conversation
+
+<br>
+
+## Tech Stack
+
+| Category | Stack |
+|---|---|
+| Languages | ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square\&logo=python\&logoColor=white) |
+| Data Analysis | ![NumPy](https://img.shields.io/badge/NumPy-013243?style=flat-square\&logo=numpy\&logoColor=white) |
+| Machine Learning | ![Scikit-learn](https://img.shields.io/badge/Scikit--learn-F7931E?style=flat-square\&logo=scikitlearn\&logoColor=white) |
+| NLP & LLM | ![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=flat-square\&logo=openai\&logoColor=white)  ![Gradio](https://img.shields.io/badge/Gradio-F97316?style=flat-square\&logo=gradio\&logoColor=white) |
+| Big Data & Cloud | ![Microsoft Azure](https://img.shields.io/badge/Microsoft%20Azure-0078D4?style=flat-square\&logoColor=white) |
+| Development & Environment | ![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=flat-square\&logo=jupyter\&logoColor=white)  ![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square\&logo=github\&logoColor=white) |
+
+<br>
+
+## Project Structure
+
+```text
+session-05/
+├── notebooks/
+│   └── openai_workshop.ipynb   # Setup, chat, generation, vision, tools, embeddings
+├── requirements.txt
+├── README.md
+└── chatbot_template.py         # Homework template: persona chatbot + Gradio UI
 ```
 
----
+<br>
 
-## 📝 숙제: 나만의 AI 챗봇 만들기
+## Getting Started
 
-### 미션
+```bash
+cp .env.example .env            # at the repository root; fill in the APIM values
+cd session-05
+pip install -r requirements.txt
+python chatbot_template.py      # opens a Gradio app on port 7860
+```
 
-특정 **페르소나**를 가진 챗봇을 만들고, Gradio로 웹 UI를 입혀서 공유합니다.
+Open `notebooks/openai_workshop.ipynb` for the lecture practice.
 
-**아이디어 예시:** 게임 공략 봇 / 독서 추천 봇 / 메뉴 추천 봇 / 진로 멘토 봇 / 자유 주제
+<br>
 
-### 필수 구현
+## Notes
 
-1. 적절한 시스템 프롬프트 (페르소나 + 행동 규칙)
-2. 대화 기록 유지 (이전 대화를 기억)
-3. Gradio 웹 UI
-
-### 템플릿
-
-`chatbot_template.py`를 기반으로 코드를 완성하세요.
-
-### 제출
-
-- GitHub 레포에 코드 업로드 + README.md (봇 이름, 설명, 스크린샷 2~3장)
+- Never commit `.env`; it holds the shared APIM key
+- Set `max_completion_tokens` on every call to control cost
+- Edit only the block marked `👇 여기를 수정하세요!` in the template: bot name, system prompt, and example questions

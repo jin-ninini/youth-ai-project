@@ -23,4 +23,5 @@ dependencies = [
     "agent-framework>=1.2.0",
     "agent-framework-core[all]>=1.2.0",
     "pydantic>=2.0",
+    "chainlit>=2.12.0",
 ]

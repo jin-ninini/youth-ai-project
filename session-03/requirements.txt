@@ -1,0 +1,4 @@
+chainlit
+requests  # chainlit 2.x imports it at startup but does not install it
+openai
+python-dotenv

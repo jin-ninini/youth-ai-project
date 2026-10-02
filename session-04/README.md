@@ -1,61 +1,89 @@
-# 4회차 — AI 기초 이론 (5/16 토, 10:00~13:00)
+# 🧠 Session 04 — AI Fundamentals
 
-## 🎯 학습 목표
+> How LLMs work, from prompts and tokens to embeddings and a tiny GPT trained from scratch.
 
-1. 생성형 AI(LLM)의 작동 원리를 직관적으로 이해한다
-2. 프롬프트 엔지니어링, 토큰화, 임베딩, Transformer/GPT 개념을 학습한다
-3. 노트북 실습을 통해 ChatGPT/GPT의 기본 원리를 체험한다
+<br>
 
-## 📊 강의 흐름
+## Overview
 
-| 순서 | 섹션 | 내용 | 시간 |
-|------|------|------| ------|
-| 1 | AI 개요와 역사 | PPTX로 AI 역사 타임라인, 전통 AI vs 생성형 AI 비교 | 10분
-| 2 | 프롬프트 엔지니어링 | `prompt_engineering_guide.ipynb`로 역할, 목표, 맥락, 형식, 제약 실습 | 20분
-| 3 | 토크나이저 | `tokenizer_tutorial.ipynb`로 토큰화 방식과 토큰 ID 실습 | 30분
-| 4 | 임베딩 | `embedding_guide.ipynb`로 벡터화, 유사도, 미니 검색 엔진 실습 | 30분
-| 5 | MicroGPT 미리보기 | `microgpt-preview.ipynb`로 LLM 내부를 들여다보기 전 큰 그림 잡기 | 15분
-| 6 | MicroGPT | `microgpt-tutorial.ipynb`로 Transformer/GPT 구조와 학습·추론 실습 | 60분
+Students build an intuition for what happens inside ChatGPT (Sat 5/16, 10:00–13:00). Each notebook takes one idea from a beginner explanation down to working code. The session ends by training MicroGPT on 32,000 names and comparing its output with a real GPT model.
 
-## 🛠️ 실습 파일
+<br>
 
-- `prompt_engineering_guide.ipynb` — 프롬프트 엔지니어링 기법 실습
-- `tokenizer_tutorial.ipynb` — 토크나이저 개념과 코드 실습
-- `embedding_guide.ipynb` — 임베딩, 유사도, 미니 검색 엔진 실습
-- `microgpt-preview.ipynb` — MicroGPT 본 실습 전 도입 및 큰 그림 잡기
-- `microgpt-tutorial.ipynb` — MicroGPT로 Transformer/GPT 구조 이해
+## Approach
 
-## 🔑 핵심 용어
+- **Data**: `data/input.txt` holds about 32,000 English first names ([karpathy/makemore](https://github.com/karpathy/makemore)) used to train MicroGPT
+- **Concepts**: Prompt engineering (role, goal, context, format, constraints), tokenization, token IDs, embeddings, cosine similarity, Transformer, attention, temperature
+- **Model**: MicroGPT, a pure-Python GPT with autograd, attention, and MLP blocks, plus the course chat model for the final comparison
+- **Homework**: Prompt Master Challenge
+  - Write a bad and a good prompt for five topics (science, math, history, English, daily life) and compare the answers
+  - Good prompts use a role, concrete context and constraints, an output format, and few-shot examples
+  - Bonus: Solve a complex problem with prompt chaining
 
-| 용어 | 설명 |
-|------|------|
-| LLM | Large Language Model, 대규모 언어 모델 |
-| Token | AI가 텍스트를 처리하는 최소 단위 |
-| Transformer | 현대 LLM의 핵심 아키텍처 |
-| Attention | 문장 내 단어 간 관계를 파악하는 메커니즘 |
-| Prompt | AI에게 보내는 입력/지시문 |
-| Temperature | 응답의 무작위성 조절 (0=결정적, 1=창의적) |
-| Hallucination | AI가 사실이 아닌 내용을 생성하는 현상 |
+<br>
 
----
+## Results
 
-## 📝 숙제: 프롬프트 마스터 챌린지
+| Notebook | Check | Result |
+|---|---|---|
+| `prompt_engineering_guide.ipynb` | All cells execute | Pass |
+| `tokenizer_tutorial.ipynb` | All cells execute | Pass |
+| `embedding_guide.ipynb` | All cells execute | Pass |
+| `microgpt-preview.ipynb` | All cells execute | Pass |
+| `microgpt-tutorial.ipynb` | Training, sampling, and GPT comparison with `.env` | Pass (about 2 minutes on CPU) |
 
-### 미션
+- MicroGPT names improve visibly as the training loss drops
+- Lower temperature gives safer, more repetitive names; higher temperature gives more creative ones
 
-5가지 주제(과학, 수학, 역사, 영어, 일상)에 대해 **"나쁜 프롬프트"** 와 **"좋은 프롬프트"** 를 작성하고, 결과를 비교 분석합니다.
+<br>
 
-**좋은 프롬프트에 포함할 요소:**
-- 역할 부여 (시스템 프롬프트)
-- 구체적인 맥락과 제약 조건
-- 출력 형식 지정
-- 예시(Few-shot) 활용
+## Tech Stack
 
-### 보너스 ⭐
+| Category | Stack |
+|---|---|
+| Languages | ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square\&logo=python\&logoColor=white) |
+| NLP & LLM | ![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=flat-square\&logo=openai\&logoColor=white) |
+| Visualization | ![Matplotlib](https://img.shields.io/badge/Matplotlib-11557C?style=flat-square\&logoColor=white) |
+| Big Data & Cloud | ![Microsoft Azure](https://img.shields.io/badge/Microsoft%20Azure-0078D4?style=flat-square\&logoColor=white) |
+| Development & Environment | ![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=flat-square\&logo=jupyter\&logoColor=white)  ![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square\&logo=github\&logoColor=white) |
 
-여러 번의 대화를 이어가며 복잡한 문제를 해결하는 **프롬프트 체이닝** 사례 추가
+<br>
 
-### 제출
+## Project Structure
 
-- 노션/구글 독스/GitHub에 정리 (스크린샷 포함)
-- 다음 수업 전까지 제출 링크 공유
+```text
+session-04/
+├── slides/
+│   ├── session-04-ai-fundamentals.pdf  # AI history and generative AI overview
+│   ├── session-04-embedding.pdf        # Embedding lecture slides
+│   └── session-04-inside-chatgpt.pdf   # Inside ChatGPT slides
+├── notebooks/
+│   ├── prompt_engineering_guide.ipynb  # Role, goal, context, format, constraints (20 min)
+│   ├── tokenizer_tutorial.ipynb        # Word, character, and subword tokenizers (30 min)
+│   ├── embedding_guide.ipynb           # Vectors, similarity, mini search engine (30 min)
+│   ├── microgpt-preview.ipynb          # Next-word guessing game and roadmap (15 min)
+│   └── microgpt-tutorial.ipynb         # Build and train MicroGPT (60 min)
+├── data/
+│   └── input.txt                       # Names dataset for MicroGPT
+├── requirements.txt
+└── README.md
+```
+
+<br>
+
+## Getting Started
+
+```bash
+cd session-04
+pip install -r requirements.txt
+```
+
+Open the notebooks in `notebooks/` in lesson order. Only the last section of `microgpt-tutorial.ipynb` calls the API; it reads `APIM_BASE_URL`, `APIM_KEY`, and `CHAT_MODEL` from the repository-root `.env`.
+
+<br>
+
+## Notes
+
+- `microgpt-tutorial.ipynb` uses the Korean font in `../../fonts/NanumGothic.ttf` for chart labels
+- If `data/input.txt` is missing, the tutorial downloads it again
+- Submit homework as a Notion, Google Docs, or GitHub page with screenshots before the next class

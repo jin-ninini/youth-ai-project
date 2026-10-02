@@ -5,39 +5,20 @@ Microsoft Agent Framework 실습 - 고등학생을 위한 샘플 시나리오
 이 파일은 .ipynb 노트북과 같은 내용을 일반 Python 스크립트로 만든 거예요.
 주피터 노트북이 없는 환경에서도 그대로 실행할 수 있습니다.
 
-실행 방법:
-    pip install agent-framework
-    cp setup-apim/.env.sample ../.env
-    # ../.env에 APIM_BASE_URL, APIM_KEY, CHAT_MODEL 값을 채운 뒤
+실행 방법 (session-06 폴더에서):
+    pip install -r requirements.txt
+    # 프로젝트 루트 .env에 APIM_BASE_URL, APIM_KEY, CHAT_MODEL 값을 채운 뒤
     python maf_sample_scenarios.py
 """
 
 import asyncio
-import os
-from pathlib import Path
 from typing import Annotated
 
-from dotenv import load_dotenv
 from pydantic import Field
 
 from agent_framework import Agent, WorkflowBuilder, AgentExecutor
-from agent_framework.openai import OpenAIChatClient
 
-
-ENV_PATH = (Path(__file__).resolve().parent / "../.env").resolve()
-load_dotenv(ENV_PATH, override=True)
-
-
-def build_chat_client() -> OpenAIChatClient:
-    apim_base_url = os.environ["APIM_BASE_URL"].rstrip("/")
-    apim_key = os.environ["APIM_KEY"]
-    model = os.getenv("CHAT_MODEL", "gpt-5.4")
-    return OpenAIChatClient(
-        model=model,
-        base_url=f"{apim_base_url}/{model}/",
-        api_key="placeholder",
-        default_headers={"api-key": apim_key},
-    )
+from src.llm_client import build_chat_client, check_env
 
 
 # ====================================================================
@@ -182,8 +163,7 @@ async def scenario_4_workflow():
     translate_step = AgentExecutor(translator, id="translate")
 
     workflow = (
-        WorkflowBuilder()
-        .set_start_executor(summarize_step)
+        WorkflowBuilder(start_executor=summarize_step)
         .add_edge(summarize_step, translate_step)
         .build()
     )
@@ -201,17 +181,15 @@ async def scenario_4_workflow():
     events = await workflow.run(long_text)
 
     print("\n📤 [최종 결과]")
-    print(events.get_outputs())
+    for output in events.get_outputs():
+        print(output)
 
 
 # ====================================================================
 # 메인
 # ====================================================================
 async def main():
-    if not os.environ.get("APIM_BASE_URL") or not os.environ.get("APIM_KEY"):
-        print("⚠️  APIM 환경 변수를 먼저 설정해 주세요.")
-        print("   1) cp setup-apim/.env.sample ../.env")
-        print("   2) ../.env에 APIM_BASE_URL, APIM_KEY를 입력하세요.")
+    if not check_env():
         return
 
     print("🚀 Microsoft Agent Framework 실습을 시작합니다!\n")

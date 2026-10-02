@@ -1,98 +1,99 @@
-# 7회차 — AI 에이전트 개발 2차 (멀티 에이전트 · 메모리 · RAG)
+# 🤝 Session 07 — AI Agents 2: Multi-Agent, Memory, and RAG
 
-## 🎯 학습 목표
+> Orchestrate multiple agents, give them memory, and ground answers in documents with RAG.
 
-1. 멀티 에이전트 오케스트레이션(Sequential · Concurrent · GroupChat) 이해
-2. 대화 메모리(Session)로 이전 대화를 "기억"하게 만들기
-3. RAG(검색 + 생성)로 문서 기반 답변하는 에이전트 구현
-4. GitHub Copilot을 활용해 스스로 코드를 완성하는 경험
+<br>
 
-## 📊 강의 흐름
+## Overview
 
-| 섹션 | 내용 | 시간 |
-|------|------|------|
-| 복습 브릿지 | 6회차(도구 · 워크플로우 · 임베딩) → 오늘로 잇기 | 3분 |
-| 멀티 에이전트 3패턴 | Sequential / Concurrent / GroupChat 개념 + 라이브 데모 | 8분 |
-| Session 메모리 | "세션 없이 vs 있이" 비교 데모 | 7분 |
-| RAG (오늘의 핵심) | 검색 + 생성, 임베딩, `@tool` — 학교 도우미 데모 | 10분 |
-| 과제 안내 | AI 학교 도우미 만들기 + Copilot 사용법 | 2분 |
-| 숙제 실습 | `school_helper_template.py` 완성 (Copilot 자기주도) | 60분 |
+Students extend single agents into teams (Sat 7/18). They run Sequential, Concurrent, and GroupChat orchestrations, compare an agent with and without session memory, and build a RAG helper that searches school documents with embeddings. Homework is a self-directed AI school helper built with GitHub Copilot.
 
-## 🛠️ 실습 파일
+<br>
 
-- `session7_main.ipynb` — 강의용 노트북 (멀티 에이전트 3패턴 + Session + RAG 데모)
-- `school_helper_template.py` — 숙제 템플릿 (임베딩 RAG + `@tool`, 보너스 Gradio)
+## Approach
 
-> 노트북과 숙제 모두 6회차 꼬맨틀에서 쓴 **임베딩 유사도**로 RAG를 구현합니다. *단어* 대신 *문서*를 검색할 뿐, 원리는 똑같아요.
+- **Data**: In-notebook school and career documents; `data/rag_source.md` is the career knowledge base for Quiz 3
+- **Concepts**: Sequential / Concurrent / GroupChat orchestration, `create_session()` memory, retrieval-augmented generation, embeddings, `@tool`
+- **Hands-on**: `notebooks/session7_main.ipynb` is the lecture notebook with five quizzes; `session7_quiz1`–`3` are standalone quiz notebooks; `practice-07.ipynb` covers memory, ChromaDB RAG, and a debate
+- **Agent-Framework-Samples Practice**: `conditional_workflow.py` adapts 07.Workflow (condition): a reporter drafts an article, an editor reviews it, and the workflow publishes or rejects based on the review
+- **Homework**: AI school helper (`school_helper_template.py`)
+  - Fill in at least 10 school documents (timetable, lunch menu, clubs, library, rules)
+  - Question → `@tool` embedding search → grounded answer; test at least 3 questions
+  - Bonus: Gradio UI, session memory, or multiple agents
 
-### ⚙️ 환경 준비 (APIM Foundry Proxy)
+<br>
+
+## Results
+
+| Practice | Check | Result |
+|---|---|---|
+| `notebooks/session7_main.ipynb` | All demo cells execute with `.env` | Pass |
+| `notebooks/session7_quiz1.ipynb` – `quiz3.ipynb` | Run end to end with the blanks filled in | Pass |
+| `notebooks/practice-07.ipynb` | All cells execute with `.env` | Pass |
+| `school_helper_template.py` | Answers from retrieved school data | Pass |
+| `conditional_workflow.py` | Approves a club news story, rejects a cheating guide | Pass |
+
+- The school helper answers "오늘 급식 뭐야?" with the exact menu from its documents
+- The editor agent approves a club award story and rejects a "시험 문제 몰래 보기" article as encouraging cheating
+
+<br>
+
+## Tech Stack
+
+| Category | Stack |
+|---|---|
+| Languages | ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square\&logo=python\&logoColor=white) |
+| Data Analysis | ![NumPy](https://img.shields.io/badge/NumPy-013243?style=flat-square\&logo=numpy\&logoColor=white) |
+| Machine Learning | ![Scikit-learn](https://img.shields.io/badge/Scikit--learn-F7931E?style=flat-square\&logo=scikitlearn\&logoColor=white) |
+| NLP & LLM | ![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=flat-square\&logo=openai\&logoColor=white)  ![Microsoft Agent Framework](https://img.shields.io/badge/Microsoft%20Agent%20Framework-5C2D91?style=flat-square\&logoColor=white)  ![Gradio](https://img.shields.io/badge/Gradio-F97316?style=flat-square\&logo=gradio\&logoColor=white) |
+| Database | ![ChromaDB](https://img.shields.io/badge/ChromaDB-FF6446?style=flat-square\&logoColor=white) |
+| Big Data & Cloud | ![Microsoft Azure](https://img.shields.io/badge/Microsoft%20Azure-0078D4?style=flat-square\&logoColor=white) |
+| Development & Environment | ![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=flat-square\&logo=jupyter\&logoColor=white)  ![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square\&logo=github\&logoColor=white) |
+
+<br>
+
+## Project Structure
+
+```text
+session-07/
+├── slides/
+│   └── session-07-multi-agent-memory-rag.pdf   # Lecture slides
+├── notebooks/
+│   ├── session7_main.ipynb      # Lecture: Sequential, Concurrent, GroupChat, Session, RAG
+│   ├── session7_quiz1.ipynb     # Quiz 1: role agents in a GroupChat
+│   ├── session7_quiz2.ipynb     # Quiz 2: study planner with session memory
+│   ├── session7_quiz3.ipynb     # Quiz 3: career RAG agent with TF-IDF + @tool
+│   └── practice-07.ipynb        # Memory chatbot, ChromaDB RAG, multi-agent debate
+├── src/
+│   └── llm_client.py            # .env → MAF chat client for APIM
+├── data/
+│   └── rag_source.md            # Career knowledge base for Quiz 3
+├── requirements.txt
+├── README.md
+├── conditional_workflow.py      # Agent-Framework-Samples 07: conditional workflow
+└── school_helper_template.py    # Homework: RAG school helper
+```
+
+<br>
+
+## Getting Started
 
 ```bash
-pip install agent-framework-orchestrations agent-framework-openai python-dotenv numpy   # 보너스: gradio
+cp .env.example .env            # at the repository root; fill in the APIM values
+cd session-07
+pip install -r requirements.txt
+python school_helper_template.py
+python conditional_workflow.py "학교 축제에서 AI 포토부스가 인기였다"
 ```
 
-프로젝트 폴더에 `.env`를 만들고 접속 정보를 채웁니다.
+Open `notebooks/session7_main.ipynb` for the lecture. Approved articles from `conditional_workflow.py` are saved to `data/output/`.
 
-```env
-APIM_ENDPOINT=https://apim-foundryproxy-dev.azure-api.net/foundry/gpt-5.4/
-APIM_KEY=<발급받은 키>
-EMBEDDING_MODEL=text-embedding-3-small
-```
+<br>
 
-> 인증은 APIM의 **api-key 헤더 방식**입니다. `.env`는 GitHub에 올리지 마세요.
+## Notes
 
-## 📚 참고 레포
-
-[microsoft/Agent-Framework-Samples](https://github.com/microsoft/Agent-Framework-Samples) 폴더 05~07 기반
-
-## 🔑 핵심 개념
-
-| 개념 | 설명 |
-|------|------|
-| Sequential / Concurrent / GroupChat | 에이전트를 순차 · 병렬 · 토론 방식으로 협업시키는 오케스트레이션 |
-| Session | 에이전트가 대화 이력을 기억하게 하는 장치 (`create_session()`) |
-| RAG | 외부 문서를 검색해서 LLM 답변에 활용 (오픈북 시험!) |
-| Embedding | 텍스트를 숫자 벡터로 변환 (6회차 꼬맨틀에서 이미 사용) |
-| `@tool` | 에이전트가 자동으로 호출하는 함수 (검색 도구로 활용) |
-
----
-
-## 📝 숙제: AI 학교 생활 도우미 (RAG)
-
-### 미션
-
-RAG를 활용해 **우리 학교 정보**를 기반으로 답변하는 AI 도우미를 만드세요.
-6회차 꼬맨틀처럼 **임베딩 유사도**로, 이번엔 *단어*가 아니라 *문서*를 검색합니다.
-
-### 핵심 기술: 임베딩 유사도
-
-```python
-def cosine_similarity(v1, v2):
-    return np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2))
-
-# 질문과 가장 비슷한 문서 Top-3를 찾아 에이전트에게 근거로 준다
-q = embed_text(question)
-sims = [cosine_similarity(q, embed_text(doc)) for doc in DOCS]
-```
-
-### 필수 구현 (기본)
-
-1. 학교 데이터 **10개 이상** 채우기 (시간표 · 급식 · 동아리 · 도서관 · 규정 등)
-2. 질문 → 관련 문서 검색(`@tool` + 임베딩 유사도) → 답변 생성
-3. 진로 / 학교 질문 **3개 이상** 테스트
-
-### 보너스 ⭐
-
-- 🌐 **Gradio 웹 UI**로 감싸기 (친구들이 브라우저에서 사용!)
-- 🧠 **Session** 결합 — 이전 질문 기억하기
-- 👥 멀티 에이전트 (학습코치 + 일정관리 + 급식안내)
-
-### 🤖 GitHub Copilot 활용법
-
-- 코드 위에 **원하는 걸 한국어 주석으로** 쓰면 Copilot이 코드를 제안해요.
-- 막히면 `Copilot Chat`에 **"이 함수가 왜 에러 나?"**, **"한 줄씩 설명해줘"** 라고 물어보세요.
-- 정답을 그대로 받기보다 **제안을 읽고 이해한 뒤 채택**하는 습관을 들이세요.
-
-### 제출
-
-완성한 `school_helper_template.py`와 실행 화면(질문 3개 답변) 캡처.
+- `create_session()` is synchronous; `await agent.create_session()` raises `TypeError`
+- `GroupChatBuilder` takes `participants=`, `selection_func=`, and `max_rounds=`; the selector reads `state.current_round` and `state.participants`
+- The quiz notebooks contain `???` blanks by design, so they stop at the first blank until students fill it in
+- The homework template now reads `APIM_BASE_URL` like every other session instead of the removed `APIM_ENDPOINT`
+- Use GitHub Copilot by writing what you want as a Korean comment, then read the suggestion before accepting it

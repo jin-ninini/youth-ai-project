@@ -1,0 +1,6 @@
+openai>=1.30.0
+python-dotenv
+numpy
+scikit-learn
+gradio>=4.0.0
+ipykernel

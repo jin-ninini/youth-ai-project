@@ -23,9 +23,10 @@
   "containerEnv": {
     "UV_LINK_MODE": "copy"
   },
-  "forwardPorts": [7860, 8888],
+  "forwardPorts": [7860, 8000, 8888],
   "portsAttributes": {
     "7860": { "label": "Gradio App", "onAutoForward": "openBrowser" },
+    "8000": { "label": "Chainlit App", "onAutoForward": "openBrowser" },
     "8888": { "label": "Jupyter", "onAutoForward": "ignore" }
   },
   "remoteUser": "vscode"
