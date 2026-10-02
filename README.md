@@ -112,3 +112,15 @@ Each session README lists its own commands.
 - Set `max_completion_tokens` on API calls to keep costs predictable
 - Always check AI answers for bias, hallucinations, and copyright issues
 - References: [Microsoft Agent Framework Samples](https://github.com/microsoft/Agent-Framework-Samples), [Azure OpenAI docs](https://learn.microsoft.com/azure/ai-services/openai/), [Prompt Engineering Guide](https://www.promptingguide.ai/kr), [Gradio docs](https://www.gradio.app/docs), [Chainlit docs](https://docs.chainlit.io)
+
+<br>
+
+## License
+
+Copyright © 2026 Hyunjin Hwang, Youth AI Project. All rights reserved.
+
+This repository is provided for viewing and portfolio evaluation purposes only.
+
+No permission is granted to copy, modify, distribute, sublicense, publish, or commercially use any part of this project, including its source code, assets, documentation, design, or other contents, without prior written permission from the copyright holder.
+
+If you want to use this project or any portion of it, please obtain written permission from the repository owner in advance.
